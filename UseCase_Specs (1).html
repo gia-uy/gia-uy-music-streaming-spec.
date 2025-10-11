@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="vi"><head>
+<meta charset="utf-8"/>
+<title>Use Case Specifications — Music Streaming</title>
+<style>
+*{box-sizing:border-box}body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:0;padding:2rem;background:#0b0d12;color:#e6e6ea}
+h1,h2{margin:.2rem 0 1rem}
+.summary{margin-bottom:1rem}
+table.uc{width:100%;border-collapse:separate;border-spacing:0 .5rem;margin:1rem 0}
+table.uc thead th{position:sticky;top:0;background:#111726;border:1px solid #22304a;padding:.5rem .6rem}
+table.uc td{vertical-align:top;border:1px solid #22304a;background:#0f1420;padding:.6rem;border-left-width:1px}
+table.uc tr td:first-child, table.uc tr th:first-child{border-radius:10px 0 0 10px}
+table.uc tr td:last-child, table.uc tr th:last-child{border-radius:0 10px 10px 0}
+small{color:#9aa3af}
+a{color:#8ab4ff}
+@media print{
+  body{background:#fff;color:#000}
+  table.uc thead th, table.uc td{border:1px solid #000}
+}
+</style>
+</head>
+<body>
+  <h1>Use Case Specifications — Music Streaming Web App</h1>
+  <div class="summary">
+    <b>Nộp dạng HTML:</b> File này chứa 3 bảng UC theo yêu cầu: Tổng quan, Đăng nhập, Quản trị. Có thể mở trực tiếp hoặc in ra PDF.
+  </div>
+  <ol>
+    <li><a href="#use-case-tong-quan">Use Case tổng quan (đầy đủ actor)</a></li>
+    <li><a href="#dang-nhap">Nhóm Use Case đăng nhập</a></li>
+    <li><a href="#nhom-quan-tri">Nhóm Use Case quản trị</a></li>
+  </ol>
+  
+    <h2 id="use-case-tong-quan" id="use-case-tổng-quan">Use Case tổng quan</h2>
+    <table class="uc">
+      <thead><tr><th>ID</th><th>Name</th><th>Actors</th><th>Brief Description</th><th>Pre-conditions</th><th>Post-conditions</th><th>Basic Flow</th><th>Alternate Flow</th></tr></thead>
+      <tbody>
+        <tr><td>UC01_Login</td><td>Đăng nhập / Đăng ký</td><td>User</td><td>Người dùng vào app bằng email/OTP, password hoặc SSO.</td><td>Tài khoản đã tồn tại (hoặc đăng ký mới).</td><td>Phiên người dùng được tạo; chuyển tới Home.</td><td>1. Mở màn hình đăng nhập.<br>2. Nhập email/OTP hoặc email/password (hoặc chọn SSO).<br>3. Hệ thống xác thực.<br>4. Thành công → vào Home.</td><td>2a. Sai OTP / Sai password → hiển thị lỗi.<br>2b. Tài khoản bị khóa → chặn đăng nhập.<br>2c. Chưa có tài khoản → chuyển sang đăng ký.</td></tr><tr><td>UC02_Search</td><td>Tìm kiếm bài hát/nghệ sĩ/album/playlist</td><td>User</td><td>Tìm kiếm không dấu và hiển thị kết quả phù hợp.</td><td>Đã truy cập ứng dụng.</td><td>Danh sách kết quả được hiển thị theo từ khóa.</td><td>1. Người dùng nhập từ khóa.<br>2. Hệ thống chuẩn hóa không dấu và truy vấn.<br>3. Trả về danh sách kết quả (bài hát, nghệ sĩ, album, playlist).</td><td>3a. Không có kết quả → hiển thị 'Không tìm thấy'.</td></tr><tr><td>UC03_Play</td><td>Phát nhạc</td><td>User; Audio CDN/Player</td><td>Phát một bài hát; nếu nghe ≥30 giây thì ghi lịch sử.</td><td>Có bài hợp lệ; CDN hoạt động; kết nối mạng.</td><td>Nhạc được phát; lịch sử được ghi nếu ≥30s.</td><td>1. Chọn bài hát.<br>2. Hệ thống lấy metadata & URL audio.<br>3. Player gọi CDN/HLS để phát.<br>4. Khi nghe ≥30s → ghi lịch sử (scrobble).</td><td>3a. CDN lỗi/file hỏng → thông báo 'Không thể phát'.<br>4a. Next trước 30s → không ghi lịch sử.</td></tr><tr><td>UC04_TrackPage</td><td>Trang bài hát (metadata, lyrics, gợi ý)</td><td>User</td><td>Hiển thị ảnh bìa, metadata, lyrics và đề xuất liên quan.</td><td>Bài hát tồn tại trong hệ thống.</td><td>Thông tin bài hát/gợi ý được hiển thị.</td><td>1. Mở trang bài hát.<br>2. Hệ thống hiển thị metadata, lyrics, danh sách gợi ý.</td><td>2a. Chưa có lyrics → ẩn/ghi chú 'chưa cập nhật'.</td></tr><tr><td>UC05_Playlist</td><td>Quản lý Playlist (tạo/sửa/xóa, thêm/bớt, chia sẻ)</td><td>User</td><td>Quản lý playlist cá nhân; ràng buộc không trùng bài trong playlist.</td><td>Người dùng đã đăng nhập.</td><td>Playlist được cập nhật theo thao tác người dùng.</td><td>1. Mở playlist.<br>2. Thêm bài hát (hệ thống kiểm tra trùng).<br>3. Sắp xếp bài hát (↑/↓).<br>4. Lưu hoặc tự động lưu.<br>5. Chia sẻ / toggle public-private (tùy chọn).</td><td>2a. Bài hát đã tồn tại trong playlist → báo lỗi.<br>4a. Mất kết nối → lưu cục bộ rồi đồng bộ lại.</td></tr><tr><td>UC06_Like</td><td>Yêu thích bài hát (Like/Unlike)</td><td>User</td><td>Gắn/bỏ yêu thích cho bài hát.</td><td>Đã đăng nhập.</td><td>Trạng thái yêu thích được lưu (local/db).</td><td>1. Nhấn ♥ để like.<br>2. Hệ thống lưu trạng thái like.<br>3. Nhấn lại để unlike (toggle).</td><td>2a. Mất mạng → retry hoặc thông báo lỗi.</td></tr><tr><td>UC07_Follow</td><td>Theo dõi Nghệ sĩ (Follow/Unfollow)</td><td>User</td><td>Theo dõi/bỏ theo dõi nghệ sĩ để nhận cập nhật.</td><td>Đã đăng nhập.</td><td>Trạng thái follow được lưu.</td><td>1. Nhấn 'Theo dõi'.<br>2. Hệ thống lưu trạng thái follow.<br>3. Nhấn lại để bỏ theo dõi.</td><td>2a. Lỗi mạng → retry hoặc báo lỗi.</td></tr><tr><td>UC08_History</td><td>Xem lịch sử nghe + thống kê</td><td>User</td><td>Hiển thị top 10 phát gần đây và thống kê cơ bản.</td><td>Đã có log phát nhạc (≥30s).</td><td>Bảng lịch sử/đồ thị hiển thị cho người dùng.</td><td>1. Mở trang History.<br>2. Hệ thống truy vấn và render danh sách/đồ thị.</td><td>2a. Không có dữ liệu → hiển thị 'Chưa có lịch sử'.</td></tr><tr><td>UC09_Subscription_Optional</td><td>(Tùy chọn) Gói thuê bao / chất lượng</td><td>User</td><td>Đăng ký gói nghe nhạc và chọn chất lượng phát.</td><td>Đăng nhập; có phương thức thanh toán hợp lệ.</td><td>Gói được kích hoạt; ưu đãi áp dụng.</td><td>1. Chọn gói.<br>2. Thanh toán.<br>3. Kích hoạt gói.<br>4. Áp dụng chất lượng phát nhạc tương ứng.</td><td>2a. Thanh toán thất bại → không kích hoạt; hướng dẫn thử lại.</td></tr><tr><td>UC10_Reports_Optional</td><td>(Tùy chọn) Báo cáo lượt nghe ngày/tuần</td><td>User</td><td>Xem báo cáo đơn giản về lượt nghe theo thời gian.</td><td>Có dữ liệu phát nhạc.</td><td>Bảng/biểu đồ báo cáo hiển thị.</td><td>1. Chọn kỳ báo cáo (ngày/tuần).<br>2. Hệ thống tổng hợp dữ liệu.<br>3. Render báo cáo.</td><td>2a. Dữ liệu quá ít → cảnh báo 'ít dữ liệu'.</td></tr>
+      </tbody>
+    </table>
+    
+  
+    <h2 id="dang-nhap" id="đăng-nhập">Đăng nhập</h2>
+    <table class="uc">
+      <thead><tr><th>ID</th><th>Name</th><th>Actors</th><th>Brief Description</th><th>Pre-conditions</th><th>Post-conditions</th><th>Basic Flow</th><th>Alternate Flow</th></tr></thead>
+      <tbody>
+        <tr><td>UC_LG01_Signup</td><td>Đăng ký tài khoản</td><td>User</td><td>Tạo tài khoản mới bằng email; xác thực email trước khi kích hoạt.</td><td>Email chưa tồn tại.</td><td>Tài khoản được tạo và kích hoạt sau khi xác thực.</td><td>1. Nhập tên + email.<br>2. Hệ thống gửi email xác thực.<br>3. Người dùng mở link xác thực.<br>4. Tài khoản kích hoạt.</td><td>2a. Email đã tồn tại → báo lỗi.<br>3a. Link hết hạn → yêu cầu gửi lại.</td></tr><tr><td>UC_LG02_LoginPassword</td><td>Đăng nhập bằng Password</td><td>User</td><td>Đăng nhập bằng email và mật khẩu.</td><td>Tài khoản đã đăng ký; chưa bị khóa.</td><td>Phiên đăng nhập được tạo; vào Home.</td><td>1. Nhập email và mật khẩu.<br>2. Hệ thống kiểm tra hash.<br>3. Đúng thông tin → đăng nhập thành công.</td><td>2a. Sai mật khẩu → hiển thị lỗi.<br>2b. Tài khoản bị khóa → chặn đăng nhập.</td></tr><tr><td>UC_LG03_LoginOTP</td><td>Đăng nhập bằng Email/OTP</td><td>User; Email/SMS Gateway</td><td>Đăng nhập bằng cách nhập OTP gửi qua email/SMS.</td><td>Gateway OTP hoạt động; email hợp lệ.</td><td>Phiên đăng nhập tạo sau khi OTP hợp lệ.</td><td>1. Nhập email.<br>2. Hệ thống gửi OTP.<br>3. Nhập OTP.<br>4. Xác thực thành công → đăng nhập.</td><td>3a. OTP sai/hết hạn → nhập lại.<br>1a. Email chưa đăng ký → gợi ý đăng ký.</td></tr><tr><td>UC_LG04_LoginSSO</td><td>Đăng nhập SSO (Google, v.v.)</td><td>User; SSO Provider</td><td>Đăng nhập qua OAuth2/OIDC.</td><td>Tài khoản SSO hợp lệ; kết nối Internet.</td><td>Phiên đăng nhập tạo; liên kết tài khoản nếu cần.</td><td>1. Chọn 'Login with Google'.<br>2. Ủy quyền tại nhà cung cấp SSO.<br>3. Callback về hệ thống.<br>4. Tạo/ghép tài khoản và đăng nhập.</td><td>2a. Người dùng hủy ủy quyền → quay lại trang login.<br>3a. Lỗi callback → báo lỗi.</td></tr><tr><td>UC_LG05_ResetPassword</td><td>Quên mật khẩu (Reset)</td><td>User; Email Gateway</td><td>Đặt lại mật khẩu qua link hoặc OTP.</td><td>Email đã đăng ký.</td><td>Mật khẩu mới được cập nhật.</td><td>1. Nhập email.<br>2. Nhận link/OTP reset.<br>3. Nhập mật khẩu mới.<br>4. Cập nhật thành công.</td><td>2a. Link hết hạn → gửi lại.<br>2b. OTP sai → yêu cầu nhập lại.</td></tr>
+      </tbody>
+    </table>
+    
+  
+    <h2 id="nhom-quan-tri" id="nhóm-quản-trị">Nhóm quản trị</h2>
+    <table class="uc">
+      <thead><tr><th>ID</th><th>Name</th><th>Actors</th><th>Brief Description</th><th>Pre-conditions</th><th>Post-conditions</th><th>Basic Flow</th><th>Alternate Flow</th></tr></thead>
+      <tbody>
+        <tr><td>ADM01_Artist</td><td>Quản lý Artist</td><td>Admin</td><td>Tạo/sửa/xóa nghệ sĩ (tên, bio, avatar, quốc gia, năm debut).</td><td>Admin đã đăng nhập và có quyền.</td><td>Bảng Artist được cập nhật.</td><td>1. Mở danh mục Artist.<br>2. Tạo/Sửa/Xóa bản ghi.<br>3. Lưu thay đổi.</td><td>2a. Trùng tên (nếu ràng buộc) → báo lỗi.<br>2b. Xóa khi còn album phụ thuộc → chặn hoặc cascade theo cấu hình DB.</td></tr><tr><td>ADM02_Album</td><td>Quản lý Album</td><td>Admin</td><td>CRUD album: tiêu đề, ngày phát hành, cover, liên kết nghệ sĩ.</td><td>Nghệ sĩ tồn tại.</td><td>Bảng Album được cập nhật.</td><td>1. Chọn nghệ sĩ.<br>2. Tạo/Sửa/Xóa album.<br>3. Lưu thay đổi.</td><td>2a. Xóa album có track → chặn hoặc cascade.<br>2b. Thiếu cover → cho phép nhưng cảnh báo.</td></tr><tr><td>ADM03_Track</td><td>Quản lý Track (upload/attach audio)</td><td>Admin</td><td>CRUD track: title, duration, audioURL, lyrics, genre, explicit.</td><td>Album & Genre tồn tại.</td><td>Bảng Track cập nhật; audio gắn đúng.</td><td>1. Chọn album.<br>2. Tạo/Sửa/Xóa track.<br>3. Upload/attach audio (HLS/WAV).<br>4. Lưu thay đổi.</td><td>3a. File audio sai định dạng → báo lỗi.<br>2a. Duration ≤ 0 → từ chối (CHECK constraint).</td></tr><tr><td>ADM04_Genre</td><td>Quản lý Genre</td><td>Admin</td><td>CRUD thể loại.</td><td>—</td><td>Bảng Genre được cập nhật; liên kết track đúng.</td><td>1. Tạo/Sửa/Xóa thể loại.<br>2. Lưu thay đổi.</td><td>2a. Xóa genre đang được dùng → chặn hoặc chuyển sang 'Unknown'.</td></tr><tr><td>ADM05_Publish</td><td>Publish/Unpublish nội dung</td><td>Admin</td><td>Đổi trạng thái xuất bản cho track/album.</td><td>Bản ghi hợp lệ; đã điền đủ thông tin tối thiểu.</td><td>Nội dung hiển thị/ẩn với người dùng.</td><td>1. Chọn nội dung.<br>2. Toggle Published/Unpublished.<br>3. Lưu thay đổi.</td><td>2a. Nội dung đang trong playlist public → cảnh báo trước khi ẩn.</td></tr>
+      </tbody>
+    </table>
+    
+</body>
+</html>

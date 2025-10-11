@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Pastel Music v5</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <header class="header">
+    <div class="logo">♫ Pastel Music</div>
+    <div class="search"><input id="q" placeholder="Tìm bài hát / nghệ sĩ / album"/></div>
+    <nav class="tabs">
+      <div class="tab active" data-view="home">Home</div>
+      <div class="tab" data-view="search">Search</div>
+      <div class="tab" data-view="artist">Artists</div>
+      <div class="tab" data-view="album">Albums</div>
+      <div class="tab" data-view="playlist">Playlist</div>
+      <div class="tab" data-view="track">Track</div>
+      <div class="tab" data-view="admin">Admin</div>
+    </nav>
+  </header>
+
+  <main class="container">
+    <aside class="sidebar">
+      <h3>Playlists</h3>
+      <div id="side-playlists" class="list"></div>
+      <div style="margin-top:8px"><button class="btn" id="new-pl">+ New playlist</button></div>
+    </aside>
+
+    <section class="section" id="view-home">
+      <h3>Khám phá</h3>
+      <div class="mini" id="mini-player">
+        <img id="mini-cover" class="thumb" src="" alt="">
+        <div id="mini-title">Chưa phát</div>
+        <button class="btn alt" id="mini-play">Play/Pause</button>
+      </div>
+      <div id="discover" class="grid"></div>
+      <h3>Đề xuất</h3>
+      <div id="suggest" class="grid"></div>
+    </section>
+
+    <section class="section hide" id="view-search">
+      <h3>Kết quả tìm kiếm</h3>
+      <div id="result" class="list"></div>
+    </section>
+
+    <section class="section hide" id="view-artist">
+      <h3>Nghệ sĩ</h3>
+      <div id="artists" class="grid"></div>
+    </section>
+
+    <section class="section hide" id="view-album">
+      <h3>Albums</h3>
+      <div id="albums" class="grid"></div>
+      <div id="album-tracks" class="list" style="margin-top:8px"></div>
+    </section>
+
+    <section class="section hide" id="view-playlist">
+      <h3>Playlist detail (kéo thả sắp xếp)</h3>
+      <div id="pl-header" class="row"></div>
+      <div id="pl-tracks" class="list"></div>
+    </section>
+
+    <section class="section hide" id="view-track">
+      <h3>Track</h3>
+      <div id="track-detail" class="list"></div>
+    </section>
+
+    <section class="section hide" id="view-admin">
+      <h3>Admin Portal (mock CRUD)</h3>
+      <div class="form-row">
+        <input id="adm-title" placeholder="Title"/>
+        <input id="adm-artist" placeholder="ArtistId (vd: ar1)"/>
+        <input id="adm-album" placeholder="AlbumId (vd: al1)"/>
+        <button class="btn alt" id="adm-add">Add</button>
+      </div>
+      <div class="table" id="adm-table"></div>
+    </section>
+  </main>
+
+  <footer class="player">
+    <div class="title" id="now">Chưa phát</div>
+    <button id="prev" class="btn">⏮</button>
+    <button id="play" class="btn alt">►</button>
+    <button id="next" class="btn">⏭</button>
+    <input id="seek" type="range" min="0" max="100" value="0"/>
+    <audio id="audio"></audio>
+  </footer>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,15 +1,15 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Pastel Music v5</title>
+  <title>Pastel Music</title>
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
   <header class="header">
-    <div class="logo">♫ Pastel Music</div>
-    <div class="search"><input id="q" placeholder="Tìm bài hát / nghệ sĩ / album"/></div>
+    <div class="logo">Pastel Music</div>
+    <div class="search"><input id="q" placeholder="Tìm bài hát / nghệ sĩ / album / playlist"></div>
     <nav class="tabs">
       <div class="tab active" data-view="home">Home</div>
       <div class="tab" data-view="search">Search</div>
@@ -17,7 +17,9 @@
       <div class="tab" data-view="album">Albums</div>
       <div class="tab" data-view="playlist">Playlist</div>
       <div class="tab" data-view="track">Track</div>
+      <div class="tab" data-view="history">History</div>
       <div class="tab" data-view="admin">Admin</div>
+      <div class="tab" data-view="auth">Auth</div>
     </nav>
   </header>
 
@@ -25,70 +27,117 @@
     <aside class="sidebar">
       <h3>Playlists</h3>
       <div id="side-playlists" class="list"></div>
-      <div style="margin-top:8px"><button class="btn" id="new-pl">+ New playlist</button></div>
+      <button class="btn" id="new-pl">+ New playlist</button>
+
+      <div class="mini">
+        <img id="mini-cover" src="assets/cover_1.jpg" alt="">
+        <div id="mini-title">Chưa phát</div>
+        <button class="btn" id="mini-play">► / ⏸</button>
+      </div>
     </aside>
 
-    <section class="section" id="view-home">
+    <section id="view-home" class="section">
       <h3>Khám phá</h3>
-      <div class="mini" id="mini-player">
-        <img id="mini-cover" class="thumb" src="" alt="">
-        <div id="mini-title">Chưa phát</div>
-        <button class="btn alt" id="mini-play">Play/Pause</button>
-      </div>
       <div id="discover" class="grid"></div>
       <h3>Đề xuất</h3>
       <div id="suggest" class="grid"></div>
     </section>
 
-    <section class="section hide" id="view-search">
+    <section id="view-search" class="section hide">
       <h3>Kết quả tìm kiếm</h3>
       <div id="result" class="list"></div>
     </section>
 
-    <section class="section hide" id="view-artist">
+    <section id="view-artist" class="section hide">
       <h3>Nghệ sĩ</h3>
       <div id="artists" class="grid"></div>
     </section>
 
-    <section class="section hide" id="view-album">
+    <section id="view-album" class="section hide">
       <h3>Albums</h3>
       <div id="albums" class="grid"></div>
-      <div id="album-tracks" class="list" style="margin-top:8px"></div>
+      <div id="album-tracks" class="list" style="margin-top:10px"></div>
     </section>
 
-    <section class="section hide" id="view-playlist">
-      <h3>Playlist detail (kéo thả sắp xếp)</h3>
+    <section id="view-playlist" class="section hide">
       <div id="pl-header" class="row"></div>
-      <div id="pl-tracks" class="list"></div>
+      <div id="pl-tracks" class="list" style="margin-top:8px"></div>
     </section>
 
-    <section class="section hide" id="view-track">
-      <h3>Track</h3>
-      <div id="track-detail" class="list"></div>
+    <section id="view-track" class="section hide">
+      <h3>Track Detail</h3>
+      <div id="track-detail"></div>
     </section>
 
-    <section class="section hide" id="view-admin">
-      <h3>Admin Portal (mock CRUD)</h3>
+    <section id="view-history" class="section hide">
+      <h3>Lịch sử nghe • Top gần đây</h3>
+      <div id="hist-list" class="list"></div>
+    </section>
+
+    <section id="view-admin" class="section hide">
+      <h3>Admin (mock)</h3>
       <div class="form-row">
-        <input id="adm-title" placeholder="Title"/>
-        <input id="adm-artist" placeholder="ArtistId (vd: ar1)"/>
-        <input id="adm-album" placeholder="AlbumId (vd: al1)"/>
-        <button class="btn alt" id="adm-add">Add</button>
+        <input id="adm-title" placeholder="Title">
+        <input id="adm-artist" placeholder="ArtistID (ar1...)">
+        <input id="adm-album" placeholder="AlbumID (al1...)">
+        <input id="adm-genre" placeholder="GenreID (g1...)">
+        <input id="adm-audio" placeholder="Audio URL (mock)">
+        <button class="btn" id="adm-add">Add</button>
       </div>
-      <div class="table" id="adm-table"></div>
+      <div id="adm-table" class="table" style="margin-top:8px"></div>
     </section>
+
+    <section id="view-auth" class="section hide">
+      <h3>Đăng ký/Đăng nhập</h3>
+      <div class="list">
+        <div class="row">
+          <div class="meta"><strong>Email/OTP</strong></div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <input id="auth-email" placeholder="email@example.com" />
+            <button class="btn" id="otp-send">Gửi OTP</button>
+            <input id="auth-otp" placeholder="Nhập OTP" style="width:120px" />
+            <button class="btn alt" id="otp-login">Đăng nhập</button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="meta"><strong>Mật khẩu (mock)</strong></div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <input id="pw-email" placeholder="email@example.com" />
+            <input id="pw-pass" type="password" placeholder="password" />
+            <button class="btn" id="pw-login">Login</button>
+            <button class="btn" id="pw-register">Register</button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="meta"><strong>SSO (mock)</strong></div>
+          <div><button class="btn" id="sso-google">Google</button></div>
+        </div>
+        <div class="row">
+          <div class="meta"><strong>Subscription</strong></div>
+          <div><button class="btn" id="plan-free">Free</button> <button class="btn" id="plan-pro">Pro</button></div>
+        </div>
+        <div class="row">
+          <div class="meta"><strong>Trạng thái</strong></div>
+          <div id="auth-status" class="badge">Chưa đăng nhập</div>
+          <div><button class="btn alt" id="auth-logout">Logout</button></div>
+        </div>
+      </div>
+    </section>
+
   </main>
 
-  <footer class="player">
-    <div class="title" id="now">Chưa phát</div>
-    <button id="prev" class="btn">⏮</button>
-    <button id="play" class="btn alt">►</button>
-    <button id="next" class="btn">⏭</button>
+  <div class="player">
+    <button class="btn" id="prev">⏮</button>
+    <button class="btn" id="play">►</button>
+    <button class="btn" id="next">⏭</button>
+    <button class="btn" id="shuffle">Shuffle</button>
+    <button class="btn" id="repeat">Repeat: off</button>
     <input id="seek" type="range" min="0" max="100" value="0"/>
+    <div class="title" id="now">Chưa phát</div>
     <audio id="audio"></audio>
-  </footer>
+  </div>
 
-  <div id="toast" class="toast"></div>
+  <div id="toast" class="toast">...</div>
 
   <script src="data.js"></script>
   <script src="app.js"></script>
